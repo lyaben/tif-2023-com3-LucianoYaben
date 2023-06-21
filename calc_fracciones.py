@@ -3,34 +3,72 @@
 #Esta función ve si el número ingresado es una fracción.
 def fraccionValida(n):
     try:
-        #Descomponer fracción
-        resultado = 0
-        longitud = len(n)
-        inicio = 0
-        ubicacionBarra = 0
-        hayBarra = False
-        while inicio < longitud:
-            #print(f"Caracter: '{n[inicio:inicio+1]}'")
-            inicio = inicio + 1
-            if n[inicio:inicio+1] == "/":
-                ubicacionBarra = inicio #arrancando en 0 la cadena
-                hayBarra = True
-                #print(f"ubicacionBarra: '{ubicacionBarra}'")
-        
-        if hayBarra:
-            numerador = n[:ubicacionBarra]
-            #print(f"numerador: '{numerador}'")
-            denominador = n[ubicacionBarra+1:]
-            #print(f"denominador: '{denominador}'")
-            resultado = int(numerador) / int(denominador)
-            #print(f"resultado: '{resultado}'")
+        if n != "=":
+            #Descomponer fracción
+            resultado = 0
+            longitud = len(n)
+            inicio = 0
+            ubicacionBarra = 0
+            hayBarra = False
+            while inicio < longitud:
+                #print(f"Caracter: '{n[inicio:inicio+1]}'")
+                inicio = inicio + 1
+                if n[inicio:inicio+1] == "/":
+                    ubicacionBarra = inicio #arrancando en 0 la cadena
+                    hayBarra = True
+                    #print(f"ubicacionBarra: '{ubicacionBarra}'")
+            
+            if hayBarra:
+                numerador = n[:ubicacionBarra]
+                numeradorInt = int(numerador) ##################################
+                denominador = n[ubicacionBarra+1:]
+                denominadorInt = int(denominador) ##################################
+                resultado = int(numerador) / int(denominador)
+                #print(f"resultado: '{resultado}'")
+            else:
+                #puede ser que que sea un numero sin denominador
+                resultado = int(n) / 1
+                #print(f"resultado: '{resultado}'")
+            return True
         else:
-            #puede ser que que sea un numero sin denominador
-            resultado = int(n) / 1
-            #print(f"resultado: '{resultado}'")
-        return True
+            return True
     except ValueError:
-            print(f"El valor '{n}' no pudo ser procesado...")
+            print(f"El valor no es valido")
+            return False
+
+#Esta función ve si el número ingresado es una fracción pero no se da ningun mensaje.
+def fraccionValidaST(n):
+    try:
+        if n != "=":
+            #Descomponer fracción
+            resultado = 0
+            longitud = len(n)
+            inicio = 0
+            ubicacionBarra = 0
+            hayBarra = False
+            while inicio < longitud:
+                #print(f"Caracter: '{n[inicio:inicio+1]}'")
+                inicio = inicio + 1
+                if n[inicio:inicio+1] == "/":
+                    ubicacionBarra = inicio #arrancando en 0 la cadena
+                    hayBarra = True
+                    #print(f"ubicacionBarra: '{ubicacionBarra}'")
+            
+            if hayBarra:
+                numerador = n[:ubicacionBarra]
+                numeradorInt = int(numerador) ##################################
+                denominador = n[ubicacionBarra+1:]
+                denominadorInt = int(denominador) ##################################
+                resultado = int(numerador) / int(denominador)
+                #print(f"resultado: '{resultado}'")
+            else:
+                #puede ser que que sea un numero sin denominador
+                resultado = int(n) / 1
+                #print(f"resultado: '{resultado}'")
+            return True
+        else:
+            return True
+    except ValueError:
             return False
 
 #Esta función devuelve el numerador de una fracción.
@@ -264,15 +302,21 @@ def calculadoraFracciones():
         fraccion = ""
         fraccion = input("Ingrese numero:")
         if fraccionDenominador(fraccion) != "0":
-            while fraccion != "=":
-                resultado = sumarFraccion(resultado, fraccion)
-                fraccion = input("Ingrese numero:")
-                if fraccionDenominador(fraccion) == "0":
-                    print("El denominador no puede ser cero.")
-                    fraccion = "="
-                    resultado = ""
-            if resultado != "":
-                print(f"Resultado {resultado}")
+            if fraccionValida(fraccion):
+                while fraccion != "=":
+                    resultado = sumarFraccion(resultado, fraccion)
+                    if fraccionValidaST(resultado):
+                        fraccion = input("Ingrese numero:")
+                        if fraccionValida(fraccion):
+                            if fraccionDenominador(fraccion) == "0":
+                                print("El denominador no puede ser cero.")
+                                fraccion = "="
+                                resultado = ""
+                    else:
+                        fraccion = "="
+                if fraccionValidaST(resultado):
+                    if resultado != "":
+                        print(f"Resultado {resultado}")
         else:
             print("El denominador no puede ser cero.")
     #Resta
@@ -280,15 +324,21 @@ def calculadoraFracciones():
         fraccion = ""
         fraccion = input("Ingrese numero:")
         if fraccionDenominador(fraccion) != "0":
-            while fraccion != "=":
-                resultado = restarFraccion(resultado, fraccion)
-                fraccion = input("Ingrese numero:")
-                if fraccionDenominador(fraccion) == "0":
-                    print("El denominador no puede ser cero.")
-                    fraccion = "="
-                    resultado = ""
-            if resultado != "":
-                print(f"Resultado {resultado}")
+            if fraccionValida(fraccion):
+                while fraccion != "=":
+                    resultado = restarFraccion(resultado, fraccion)
+                    if fraccionValidaST(resultado):
+                        fraccion = input("Ingrese numero:")
+                        if fraccionValida(fraccion):
+                            if fraccionDenominador(fraccion) == "0":
+                                print("El denominador no puede ser cero.")
+                                fraccion = "="
+                                resultado = ""
+                    else:
+                        fraccion = "="
+                if fraccionValidaST(resultado):
+                    if resultado != "":
+                        print(f"Resultado {resultado}")
         else:
             print("El denominador no puede ser cero.")
     #Multiplicación
@@ -296,15 +346,21 @@ def calculadoraFracciones():
         fraccion = ""
         fraccion = input("Ingrese numero:")
         if fraccionDenominador(fraccion) != "0":
-            while fraccion != "=":
-                resultado = multiplicarFraccion(resultado, fraccion)
-                fraccion = input("Ingrese numero:")
-                if fraccionDenominador(fraccion) == "0":
-                    print("El denominador no puede ser cero.")
-                    fraccion = "="
-                    resultado = ""
-            if resultado != "":
-                print(f"Resultado {resultado}")
+            if fraccionValida(fraccion):
+                while fraccion != "=":
+                    resultado = multiplicarFraccion(resultado, fraccion)
+                    if fraccionValidaST(resultado):
+                        fraccion = input("Ingrese numero:")
+                        if fraccionValida(fraccion):
+                            if fraccionDenominador(fraccion) == "0":
+                                print("El denominador no puede ser cero.")
+                                fraccion = "="
+                                resultado = ""
+                    else:
+                        fraccion = "="
+                if fraccionValidaST(resultado):
+                    if resultado != "":
+                        print(f"Resultado {resultado}")
         else:
             print("El denominador no puede ser cero.")
     #División
@@ -312,14 +368,20 @@ def calculadoraFracciones():
         fraccion = ""
         fraccion = input("Ingrese numero:")
         if fraccionDenominador(fraccion) != "0":
-            while fraccion != "=":
-                resultado = dividirFraccion(resultado, fraccion)
-                fraccion = input("Ingrese numero:")
-                if fraccionDenominador(fraccion) == "0":
-                    print("El denominador no puede ser cero.")
-                    fraccion = "="
-                    resultado = ""
-            if resultado != "":
-                print(f"Resultado {resultado}")
+            if fraccionValida(fraccion):
+                while fraccion != "=":
+                    resultado = dividirFraccion(resultado, fraccion)
+                    if fraccionValidaST(resultado):
+                        fraccion = input("Ingrese numero:")
+                        if fraccionValida(fraccion):
+                            if fraccionDenominador(fraccion) == "0":
+                                print("El denominador no puede ser cero.")
+                                fraccion = "="
+                                resultado = ""
+                    else:
+                        fraccion = "="
+                if fraccionValidaST(resultado):
+                    if resultado != "":
+                        print(f"Resultado {resultado}")
         else:
             print("El denominador no puede ser cero.")
